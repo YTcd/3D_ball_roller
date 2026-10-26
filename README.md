@@ -9,6 +9,8 @@
 ## 공부
 - 3D Plane
 - RigidBody
+    - Mass, Linear Damping, Anglular Damping
+    - ForceMode
 
 ## 작업 순서
 
@@ -22,8 +24,8 @@
 ### 2. 플레이어 기본 이동 (키보드)
 - [x] 바닥 Plane + 구(Sphere) 플레이어 배치, `Rigidbody` + `SphereCollider`
 - [x] `InputSystem_Actions`에 Move(WASD) / Jump(Space) 액션 확인·정리
-- [ ] `PlayerController` 스크립트: Move 입력 → `AddForce`로 구르기
-- [ ] 이동 속도/가속/최대 속도 파라미터 조정 (Inspector 노출)
+- [x] `PlayerController` 스크립트: Move 입력 → `AddForce`로 구르기
+- [x] 이동 속도/가속/최대 속도 파라미터 조정 (Inspector 노출)
 
 ### 3. 점프
 - [ ] 접지 판정 (SphereCast 또는 충돌 법선 체크)
