@@ -4,7 +4,11 @@
 
 - 조작: 키보드 `WASD` + `Space` / 모바일 가상 조이스틱 + 점프 버튼
 - 환경: Unity 6000.2.12f1, URP, Input System 1.14
-- 에셋: AurynSky Forest Pack
+- 에셋: AurynSky Forest Pack (무료)
+
+## 공부
+- 3D Plane
+- RigidBody
 
 ## 작업 순서
 
@@ -16,7 +20,7 @@
 - [x] Player Settings 확인 (Active Input Handling = Input System, 타깃 플랫폼 PC/모바일)
 
 ### 2. 플레이어 기본 이동 (키보드)
-- [ ] 바닥 Plane + 구(Sphere) 플레이어 배치, `Rigidbody` + `SphereCollider`
+- [x] 바닥 Plane + 구(Sphere) 플레이어 배치, `Rigidbody` + `SphereCollider`
 - [ ] `InputSystem_Actions`에 Move(WASD) / Jump(Space) 액션 확인·정리
 - [ ] `PlayerController` 스크립트: Move 입력 → `AddForce`로 구르기
 - [ ] 이동 속도/가속/최대 속도 파라미터 조정 (Inspector 노출)
