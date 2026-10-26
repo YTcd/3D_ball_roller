@@ -11,9 +11,9 @@
 완료한 항목은 지우거나 `[x]`로 체크.
 
 ### 1. 프로젝트 기본 세팅
-- [ ] `Assets/` 폴더 구조 정리 (`_Project/Scripts`, `Prefabs`, `Materials`, `Scenes` 등 내 작업물과 에셋 분리)
-- [ ] 작업용 씬 생성 (`SampleScene` 정리 또는 `Level01` 새로 만들기)
-- [ ] Player Settings 확인 (Active Input Handling = Input System, 타깃 플랫폼 PC/모바일)
+- [x] `Assets/` 폴더 구조 정리 (`_Project/Scripts`, `Prefabs`, `Materials`, `Scenes` 등 내 작업물과 에셋 분리)
+- [x] 작업용 씬 생성 (`SampleScene` 정리 또는 `Level01` 새로 만들기)
+- [x] Player Settings 확인 (Active Input Handling = Input System, 타깃 플랫폼 PC/모바일)
 
 ### 2. 플레이어 기본 이동 (키보드)
 - [ ] 바닥 Plane + 구(Sphere) 플레이어 배치, `Rigidbody` + `SphereCollider`
