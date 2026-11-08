@@ -23,13 +23,15 @@ public class Player : MonoBehaviour
     private float minPitch = 0f;
     [SerializeField]
     private float maxPitch = 80f;
+    [SerializeField]
+    private float jumpBufferTime = 0.1f;
 
     private InputAction moveAction;
     private InputAction jumpAction;
     private InputAction cameraAction;
     private Rigidbody rigid;
     private Vector2 inputVec;
-    private bool jumpPressed = false;
+    private float lastJumpPressedTime = float.NegativeInfinity;
     private float yaw = 0f;
     private float pitch = 20f;
 
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
+        rigid.sleepThreshold = 0f;
     }
 
     void OnEnable()
@@ -52,7 +55,9 @@ public class Player : MonoBehaviour
     void Update()
     {
         if (jumpAction.WasPressedThisFrame())
-            jumpPressed = true;
+        {
+            lastJumpPressedTime = Time.time;
+        }
     }
 
     void FixedUpdate()
@@ -92,11 +97,11 @@ public class Player : MonoBehaviour
 
     private void HandleJumpAction()
     {
-        if (jumpPressed == true)
+        if (Time.time <= lastJumpPressedTime + jumpBufferTime)
         {
-            jumpPressed = false;
             if (collisionChecker.IsJumpAvaliable == true)
             {
+                lastJumpPressedTime = float.NegativeInfinity;
                 collisionChecker.WriteLastJumpedTime();
                 rigid.AddForce(0, jumpForce, 0, ForceMode.Impulse);
             }

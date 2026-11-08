@@ -11,6 +11,7 @@
 - RigidBody
     - Mass, Linear Damping, Anglular Damping
     - ForceMode
+    - sleep
 - DefaultExecutionOrder
 - getter,setter
 
@@ -34,7 +35,7 @@
 - [x] 접지 상태에서만 점프 (`ForceMode.Impulse`)
 - [ ] 점프 높이·중력감 조정 (필요하면 낙하 시 추가 중력)
 - [x] Physics Material로 마찰·튕김 조정
-- [ ] 점프 버퍼 만들기
+- [x] 점프 버퍼 만들기
 - [ ] 점프 높이 가변
 
 ### 4. 카메라
