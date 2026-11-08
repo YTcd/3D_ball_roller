@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField]
+    private CollisionChecker collisionChecker;
+    [SerializeField]
     private float moveForce = 10f;
     [SerializeField]
     private float jumpForce = 10f;
@@ -26,7 +28,6 @@ public class Player : MonoBehaviour
     private InputAction jumpAction;
     private InputAction cameraAction;
     private Rigidbody rigid;
-    private Collider coll;
     private Vector2 inputVec;
     private bool jumpPressed = false;
     private float yaw = 0f;
@@ -39,7 +40,6 @@ public class Player : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody>();
-        coll = GetComponent<Collider>();
     }
 
     void OnEnable()
@@ -95,7 +95,11 @@ public class Player : MonoBehaviour
         if (jumpPressed == true)
         {
             jumpPressed = false;
-            rigid.AddForce(0, jumpForce, 0, ForceMode.Impulse);
+            if (collisionChecker.IsJumpAvaliable == true)
+            {
+                collisionChecker.WriteLastJumpedTime();
+                rigid.AddForce(0, jumpForce, 0, ForceMode.Impulse);
+            }
         }
     }
 

@@ -11,6 +11,8 @@
 - RigidBody
     - Mass, Linear Damping, Anglular Damping
     - ForceMode
+- DefaultExecutionOrder
+- getter,setter
 
 ## 작업 순서
 
@@ -28,10 +30,12 @@
 - [x] 이동 속도/가속/최대 속도 파라미터 조정 (Inspector 노출)
 
 ### 3. 점프
-- [ ] 접지 판정 (SphereCast 또는 충돌 법선 체크)
-- [ ] 접지 상태에서만 점프 (`ForceMode.Impulse`)
+- [x] 접지 판정 (SphereCast 또는 충돌 법선 체크)
+- [x] 접지 상태에서만 점프 (`ForceMode.Impulse`)
 - [ ] 점프 높이·중력감 조정 (필요하면 낙하 시 추가 중력)
-- [ ] Physics Material로 마찰·튕김 조정
+- [x] Physics Material로 마찰·튕김 조정
+- [ ] 점프 버퍼 만들기
+- [ ] 점프 높이 가변
 
 ### 4. 카메라
 - [x] 플레이어를 따라가는 3인칭 카메라 (오프셋 + 부드러운 추적)
