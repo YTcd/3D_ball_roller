@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private CollisionChecker collisionChecker;
     [SerializeField]
-    private float moveForce = 10f;
+    private float moveForce = 15f;
     [SerializeField]
-    private float jumpForce = 10f;
+    private float jumpForce = 13f;
     [SerializeField]
     private float maxSpeed = 8f;
     [SerializeField]
@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
     private float maxPitch = 80f;
     [SerializeField]
     private float jumpBufferTime = 0.1f;
+    [SerializeField]
+    private float jumpCutMultiplier = 0.5f;
 
     private InputAction moveAction;
     private InputAction jumpAction;
@@ -32,6 +34,7 @@ public class Player : MonoBehaviour
     private Rigidbody rigid;
     private Vector2 inputVec;
     private float lastJumpPressedTime = float.NegativeInfinity;
+    private bool isJumping = false;
     private float yaw = 0f;
     private float pitch = 20f;
 
@@ -97,6 +100,8 @@ public class Player : MonoBehaviour
 
     private void HandleJumpAction()
     {
+        HandleJumpCut();
+
         if (Time.time <= lastJumpPressedTime + jumpBufferTime)
         {
             if (collisionChecker.IsJumpAvaliable == true)
@@ -104,7 +109,27 @@ public class Player : MonoBehaviour
                 lastJumpPressedTime = float.NegativeInfinity;
                 collisionChecker.WriteLastJumpedTime();
                 rigid.AddForce(0, jumpForce, 0, ForceMode.Impulse);
+                isJumping = true;
             }
+        }
+    }
+
+    private void HandleJumpCut()
+    {
+        if (isJumping == false)
+            return;
+
+        Vector3 velocity = rigid.linearVelocity;
+        if (velocity.y <= 0f)
+        {
+            isJumping = false;
+            return;
+        }
+
+        if (jumpAction.IsPressed() == false)
+        {
+            rigid.linearVelocity = new Vector3(velocity.x, velocity.y * jumpCutMultiplier, velocity.z);
+            isJumping = false;
         }
     }
 
