@@ -15,6 +15,7 @@
 - DefaultExecutionOrder
 - getter,setter
 - Material 속성
+- SceneManager
 
 ## 작업 순서
 
@@ -45,12 +46,26 @@
 - [x] 이동 방향을 카메라 기준으로 변환 (W = 카메라 앞쪽)
 - [ ] (선택) Cinemachine 도입 여부 결정 — 벽 많은 레벨에서 재검토
 
-### 5. 게임 루프: 시작·도착·실패
-- [ ] 시작 지점(Spawn Point) 지정
-- [ ] 도착 지점 오브젝트 + Trigger → 클리어 처리
-- [ ] 낙사 판정 (일정 높이 아래로 떨어지면 리스폰)
+### 5. 게임 시스템: 레벨(씬) 구조
+
+먼저 알아둘 것
+- `SceneManager.LoadScene` / `GetActiveScene().buildIndex`
+- Build Profiles(Build Settings)의 씬 목록과 순서 = 레벨 순서
+- `DontDestroyOnLoad`와 싱글톤 수명 (씬마다 새로 생기는지 vs 계속 유지되는지)
+- 씬 로드 후 초기화 시점 (`Awake`/`Start`, `SceneManager.sceneLoaded`)
+
+작업
+- [ ] 구조 결정: 레벨 씬에는 레벨 고유 요소(지형, `SpawnPoint`, `Goal`)만 두고, 공통 요소(Player, Camera, `GameManager`, UI)는 프리팹으로 만들어 각 씬에 배치
+- [ ] `Level_Base`를 새 레벨용 템플릿 씬으로 정리 (공통 프리팹 포함) → 복제해서 `Level_01`, `Level_02` … 생성
+- [ ] Build Profiles 씬 목록 정리 (존재하지 않는 `SampleScene` 제거, `Level_00`부터 순서대로 등록)
+- [ ] `GameManager`: 상태 관리 (플레이 중 / 클리어), 씬 시작 시 `SpawnPoint` 찾아 플레이어 배치
+- [ ] `Goal` Trigger → `GameManager`에 클리어 알림
+- [ ] 낙사 판정 (일정 높이 아래로 떨어지면 `SpawnPoint`로 리스폰)
+- [ ] 재시작 = 현재 씬 다시 로드, 다음 레벨 = `buildIndex + 1` 로드 (마지막 레벨이면 처음으로)
+- [ ] 임시 `Level_01`을 만들어 `Level_00` → `Level_01` 전환 확인
 - [ ] (선택) 체크포인트
-- [ ] `GameManager`: 상태 관리 (플레이 중 / 클리어 / 재시작)
+- [ ] (선택) 진행도 저장 (`PlayerPrefs`로 해금된 레벨)
+- [ ] (나중에 검토) 공통 요소를 Bootstrap 씬에 두고 레벨 씬을 Additive 로드하는 방식
 
 ### 6. 레벨 디자인 (그레이박스)
 - [ ] 단순 큐브로 발판·경사로·간격 배치해서 첫 레벨 구성
