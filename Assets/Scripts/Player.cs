@@ -9,16 +9,32 @@ public class Player : MonoBehaviour
     private float jumpForce = 10f;
     [SerializeField]
     private float maxSpeed = 8f;
+    [SerializeField]
+    private Vector3 camaraOffset = new Vector3(0f, 5f, -8f);
+    [SerializeField]
+    private Camera cameraObj;
+    [SerializeField]
+    private float cameraDistance = 8f;
+    [SerializeField]
+    private float cameraSensitivity = 0.2f;
+    [SerializeField]
+    private float minPitch = 0f;
+    [SerializeField]
+    private float maxPitch = 80f;
 
     private InputAction moveAction;
     private InputAction jumpAction;
+    private InputAction cameraAction;
     private Rigidbody rigid;
     private Collider coll;
     private Vector2 inputVec;
     private bool jumpPressed = false;
+    private float yaw = 0f;
+    private float pitch = 20f;
 
     private const string MoveActionName = "Move";
     private const string JumpActionName = "Jump";
+    private const string CameraActionName = "Look";
 
     void Awake()
     {
@@ -30,6 +46,7 @@ public class Player : MonoBehaviour
     {
         moveAction = InputSystem.actions.FindAction(MoveActionName);
         jumpAction = InputSystem.actions.FindAction(JumpActionName);
+        cameraAction = InputSystem.actions.FindAction(CameraActionName);
     }
 
     void Update()
@@ -44,6 +61,11 @@ public class Player : MonoBehaviour
         HandleJumpAction();
     }
 
+    void LateUpdate()
+    {
+        HandleCameraAction();
+    }
+
     private void HandleMoveAction()
     {
         inputVec = moveAction.ReadValue<Vector2>();
@@ -51,7 +73,8 @@ public class Player : MonoBehaviour
         if (inputVec.x == 0 && inputVec.y == 0)
             return;
 
-        rigid.AddForce(inputVec.x * moveForce, 0, inputVec.y * moveForce);
+        Vector3 dir = Quaternion.Euler(0f, yaw, 0f) * new Vector3(inputVec.x, 0f, inputVec.y);
+        rigid.AddForce(dir * moveForce);
         LimitHorizontalSpeed();
     }
 
@@ -74,5 +97,21 @@ public class Player : MonoBehaviour
             jumpPressed = false;
             rigid.AddForce(0, jumpForce, 0, ForceMode.Impulse);
         }
+    }
+
+    private void HandleCameraAction()
+    {
+        if (cameraObj == null) return;
+
+        Vector2 look = cameraAction.ReadValue<Vector2>();
+        yaw += look.x * cameraSensitivity;
+        pitch -= look.y * cameraSensitivity;
+        pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+
+        Quaternion rotation = Quaternion.Euler(pitch, yaw, 0f);
+        Vector3 offset = rotation * new Vector3(0f, 0f, -cameraDistance);
+
+        cameraObj.transform.position = transform.position + offset;
+        cameraObj.transform.LookAt(transform.position);
     }
 }
